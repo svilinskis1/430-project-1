@@ -32,9 +32,9 @@ const addUser = (request, response) => {
     message: 'Name and age are both required.',
   };
 
-  //this line of code crashed for me, even though it worked 
-  //in the demo. i added a placeholder for now
-  //const { name, age } = request.body;
+  // this line of code crashed for me, even though it worked
+  // in the demo. i added a placeholder for now
+  // const { name, age } = request.body;
 
   const { name, age } = { name: 'baby', age: '0' };
 
