@@ -118,27 +118,75 @@
 </script>
 </head>
 <body>
+  <h1>Book API</h1>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
-      <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
-      <input type="submit" value="Add User" />
-    </form>
-    <form id="userForm" action="/getUsers" method="get">
-      <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <select id="methodSelect">
+
+    <h3>Get by Title</h3>
+    <form id="titleForm" action="/getTitle">
+      <label for="title">Get by Title: </label>
+      <input id="titleField" type="text" name="title" />
+      <input type="submit" value="Submit" />
+      <select class="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
-      <input type="submit" value="Get User" />
     </form>
+
+    <hr>
+
+    <h3>Get a Genre</h3>
+    <form id="genreForm" action="/getGenre">
+      <label for="genre">Get by Genre: </label>
+      <input id="genreField" type="text" name="genre" />
+      <input type="submit" value="Submit" />
+      <select class="methodSelect">
+        <option value="get">GET</option>
+        <option value="head">HEAD</option>
+      </select>
+    </form>
+
+    <hr>
+
+    <h3>Find a Book</h3>
+    <form id="bookForm" action="/getBook">
+      <label for="bookTitle">Title: </label>
+      <input id="bookTitleField" type="text" name="bookTitle" />
+
+      <label for="bookAuthor">Author: </label>
+      <input id="bookAuthorField" type="text" name="bookAuthor" />
+
+      <label for="bookCountry">Country: </label>
+      <input id="bookCountryField" type="text" name="bookCountry" />
+
+      <label for="bookYear">Year: </label>
+      <input id="bookYearField" type="text" name="bookYear" />
+
+      <label for="bookLanguage">Language: </label>
+      <input id="bookLanguageField" type="text" name="bookLanguage" />
+
+      <label for="bookGenre">Genre: </label>
+      <input id="bookGenreField" type="text" name="bookGenre" />
+
+      <input type="submit" value="Submit" />
+      <select class="methodSelect">
+        <option value="get">GET</option>
+        <option value="head">HEAD</option>
+      </select>
+    </form>
+
+    <hr>
+
+    <h3>Get a Random Book</h3>
+    <form id="randomForm" action="/getRandom">
+      <input type="submit" value="Submit" />
+    </form>
+
+    <hr>
+    <hr>
+
   </section>
+
+  <h2>Output</h2>
   <section id="content">
   </section>
 </body>
