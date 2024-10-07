@@ -10,7 +10,7 @@ const urlStruct = {
   '/getTitle': responseHandler.getTitle,
   '/getGenre': responseHandler.getGenre,
   '/getRandom': responseHandler.getRandom,
-  '/getBook': responseHandler.getBook,
+  '/getBooks': responseHandler.getBooks,
   '/reviewBook': responseHandler.reviewBook,
   '/addBook': responseHandler.addBook,
   notFound: responseHandler.notFound,

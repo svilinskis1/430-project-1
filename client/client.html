@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Our simple HTTP server</title>
+  <title>Book API</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
@@ -53,30 +53,25 @@
     //function to send get and head requests
     const requestUpdate = async (userForm) => {
     
-    const url = userForm.querySelector('#urlField').value;
-    const method = userForm.querySelector('#methodSelect').value;
-    
-    let response = await fetch(url, {
-      method,
-      headers: {
-          'Accept': 'application/json'
-      },
-    });
+      const url = userForm.querySelector('#urlField').value;
+      const method = userForm.querySelector('#methodSelect').value;
+      
+      let response = await fetch(url, {
+        method,
+        headers: {
+            'Accept': 'application/json'
+        },
+      });
 
-    handleResponse(response, method === 'get', true);
+      handleResponse(response, method === 'get');
     };
 
   //function to send post requests
   const sendPost = async (nameForm) => {
-
     const url = nameForm.getAttribute('action');
-    const method = nameForm.getAttribute('method');
-    
-    const nameField = nameForm.querySelector('#nameField');
-    const ageField = nameForm.querySelector('#ageField');
 
-
-    const formData = `name=${nameField.value}&age=${ageField.value}`;
+    //TODO: get proper form data from the form
+    const formData = "";
 
     let response = await fetch(url, {
       method: method,
@@ -87,29 +82,29 @@
       body: formData,
     });
 
-    handleResponse(response, true, false);
+    handleResponse(response, true);
   };
 
   const init = () => {
-    const nameForm = document.querySelector('#nameForm');
+    
+    const getMethod = (e) => {
+      e.preventDefault();
+      requestUpdate(userForm);
+      return false;
+    }
 
-    const addUser = (e) => {
+    //TODO: 
+    //add eventlistener to all get forms
+
+
+    const postMethod = (e) => {
       e.preventDefault();
       sendPost(nameForm);
       return false;
     }
 
-    nameForm.addEventListener('submit', addUser); 
-    
-    const userForm = document.querySelector('#userForm');
-    
-    const getUsers = (e) => {
-      e.preventDefault();
-      requestUpdate(userForm);
-      return false;
-    }
-    
-    userForm.addEventListener('submit', getUsers);  
+    //TODO: 
+    //add eventlistener to all post forms
   };
 
   //When the window loads, run init.
@@ -122,9 +117,9 @@
   <section id="top">
 
     <h3>Get by Title</h3>
-    <form id="titleForm" action="/getTitle">
+    <form class = "getForm" id="titleForm" action="/getTitle">
       <label for="title">Get by Title: </label>
-      <input id="titleField" type="text" name="title" />
+      <input class = "formValue" type="text" name="title" />
       <input type="submit" value="Submit" />
       <select class="methodSelect">
         <option value="get">GET</option>
@@ -135,38 +130,9 @@
     <hr>
 
     <h3>Get a Genre</h3>
-    <form id="genreForm" action="/getGenre">
+    <form class = "getForm" id="genreForm" action="/getGenre">
       <label for="genre">Get by Genre: </label>
-      <input id="genreField" type="text" name="genre" />
-      <input type="submit" value="Submit" />
-      <select class="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-    </form>
-
-    <hr>
-
-    <h3>Find a Book</h3>
-    <form id="bookForm" action="/getBook">
-      <label for="bookTitle">Title: </label>
-      <input id="bookTitleField" type="text" name="bookTitle" />
-
-      <label for="bookAuthor">Author: </label>
-      <input id="bookAuthorField" type="text" name="bookAuthor" />
-
-      <label for="bookCountry">Country: </label>
-      <input id="bookCountryField" type="text" name="bookCountry" />
-
-      <label for="bookYear">Year: </label>
-      <input id="bookYearField" type="text" name="bookYear" />
-
-      <label for="bookLanguage">Language: </label>
-      <input id="bookLanguageField" type="text" name="bookLanguage" />
-
-      <label for="bookGenre">Genre: </label>
-      <input id="bookGenreField" type="text" name="bookGenre" />
-
+      <input class = "formValue" type="text" name="genre" />
       <input type="submit" value="Submit" />
       <select class="methodSelect">
         <option value="get">GET</option>
@@ -177,7 +143,62 @@
     <hr>
 
     <h3>Get a Random Book</h3>
-    <form id="randomForm" action="/getRandom">
+    <form class = "getForm" id="randomForm" action="/getRandom">
+      <input type="submit" value="Submit" />
+      <select class="methodSelect">
+        <option value="get">GET</option>
+        <option value="head">HEAD</option>
+      </select>
+    </form>
+
+    <hr>
+
+    <h3>Get Every Book</h3>
+    <form class = "getForm" id="randomForm" action="/getBooks">
+      <input type="submit" value="Submit" />
+      <select class="methodSelect">
+        <option value="get">GET</option>
+        <option value="head">HEAD</option>
+      </select>
+    </form>
+
+    <hr>
+
+    <h3>Review Book</h3>
+    <form class = "postForm" id= "reviewForm" action="/reviewBook">
+      <label for="title">Title: </label>
+      <input class = "formValue" type="text" name="title" />
+
+      <label for="review">Review: </label>
+      <input class = "formValue" type="textarea" name="review" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <hr>
+
+    <h3>Add New Book</h3>
+    <form class = "postForm" id= "addForm" action="/addBook">
+      <label for="title">Title (required): </label>
+      <input class = "formValue" type="text" name="title" />
+
+      <label for="author">author: </label>
+      <input class = "formValue" type="text" name="author" />
+
+      <label for="country">country: </label>
+      <input class = "formValue" type="text" name="country" />
+
+      <label for="link">link: </label>
+      <input class = "formValue" type="text" name="link" />
+
+      <label for="pages">pages: </label>
+      <input class = "formValue" type="text" name="pages" />
+
+      <label for="year">year: </label>
+      <input class = "formValue" type="text" name="year" />
+
+      <label for="genre">genre: </label>
+      <input class = "formValue" type="text" name="genre" />
+
       <input type="submit" value="Submit" />
     </form>
 

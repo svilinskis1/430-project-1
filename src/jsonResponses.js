@@ -1,5 +1,5 @@
-// array that holds all the users
-const users = {};
+const fs = require('fs'); // pull in the file system module
+const books = JSON.parse(fs.readFileSync(`${__dirname}/../data/books.json`, 'utf8'));
 
 // send a response
 const respondJSON = (request, response, status, object) => {
@@ -19,110 +19,128 @@ const respondJSON = (request, response, status, object) => {
 
 // getTitle - returns a single book with matching title
 const getTitle = (request, response) => {
-  const JSONresponse = {
-    users,
+  let JSONresponse = {
+    message: 'Title not found!',
   };
+
+  for (let i = 0; i < books.length; i++) {
+    if (request.query.title === books[i].title) {
+      JSONresponse = books[i];
+    }
+  }
 
   return respondJSON(request, response, 200, JSONresponse);
 };
 
 // getGenre - returns every book with the genre
 const getGenre = (request, response) => {
-  const JSONresponse = {
-    users,
-  };
+  let JSONresponse = {};
+
+  for (let i = 0; i < books.length; i++) {
+    for (let j = 0; j < books[i].genres; j++) {
+      if (request.query.genre === books[i].genres[j]) {
+        JSONresponse += books[i];
+      }
+    }
+  }
+
+  if (JSONresponse === '') {
+    JSONresponse = {
+      message: 'There are no books with this genre!',
+    };
+  }
 
   return respondJSON(request, response, 200, JSONresponse);
 };
 
 // getRandom - returns a random book
 const getRandom = (request, response) => {
-  const JSONresponse = {
-    users,
-  };
+  // get a random index within the book object
+  const book = Math.floor(Math.random() * books.length);
+
+  // return it
+  const JSONresponse = books[book];
 
   return respondJSON(request, response, 200, JSONresponse);
 };
 
-// getBook - returns a book matching provided fields
-const getBook = (request, response) => {
-  const JSONresponse = {
-    users,
-  };
+// getBooks - returns all books
+const getBooks = (request, response) => {
+  const JSONresponse = books;
 
   return respondJSON(request, response, 200, JSONresponse);
 };
 
 // reviewBook - post. allows user to write a review
+// NEEDS FIXING
 const reviewBook = (request, response) => {
   const responseJSON = {
-    message: 'Name and age are both required.',
+  message: 'title and review are both required.',
   };
 
-  // this line of code crashed for me, even though it worked
-  // in the demo. i added a placeholder for now
-  // const { name, age } = request.body;
-
-  const { name, age } = { name: 'baby', age: '0' };
-
-  if (!name || !age) {
+  if(!request.query.title || !request.query.review){
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 204;
 
-  if (!users[name]) {
-    responseCode = 201;
-    users[name] = {
-      name,
-    };
+  let userTitle = request.query.title;
+  let userReview = request.query.review;
+
+  //send an error if the book doesnt exist
+  if (!books[userTitle]) {
+    responseCode = 400;
+    responseJSON.message = 'Title not Found';
   }
 
-  users[name].age = age;
+  books[userTitle].review = userReview;
 
-  if (responseCode === 201) {
-    responseJSON.message = 'Created Successfully';
-    return respondJSON(request, response, responseCode, responseJSON);
-  }
+  responseJSON.message = "Review Updated"
 
-  return respondJSON(request, response, responseCode, {});
+  return respondJSON(request, response, responseCode, responseJSON);
 };
 
 // addBook - allows user to add a new book to the api
+// NEEDS FIXING
 const addBook = (request, response) => {
   const responseJSON = {
-    message: 'Name and age are both required.',
-  };
-
-  // this line of code crashed for me, even though it worked
-  // in the demo. i added a placeholder for now
-  // const { name, age } = request.body;
-
-  const { name, age } = { name: 'baby', age: '0' };
-
-  if (!name || !age) {
-    responseJSON.id = 'missingParams';
-    return respondJSON(request, response, 400, responseJSON);
-  }
-
-  let responseCode = 204;
-
-  if (!users[name]) {
-    responseCode = 201;
-    users[name] = {
-      name,
+    message: 'title is required.',
     };
-  }
+  
+    if(!request.query.title){
+      responseJSON.id = 'missingParams';
+      return respondJSON(request, response, 400, responseJSON);
+    }
+  
+    let responseCode = 204;
+  
+    let userTitle = request.query.title;
+  
+    //if the book doesnt already exist make it
+    if (!books[userTitle]) {
+      responseCode = 201;
+      books[userTitle] = {
+        userTitle,
+      };
+    }
 
-  users[name].age = age;
+    //update all the fields
+    books[userTitle].author = request.query.author;
+    books[userTitle].country = request.query.country;
+    books[userTitle].link = request.query.link;
+    books[userTitle].pages = request.query.pages;
+    books[userTitle].year = request.query.year;
+    books[userTitle].genre = request.query.genre;
+  
+    responseJSON.message = "Book Updated"
 
-  if (responseCode === 201) {
-    responseJSON.message = 'Created Successfully';
-    return respondJSON(request, response, responseCode, responseJSON);
-  }
-
-  return respondJSON(request, response, responseCode, {});
+    if (responseCode === 201) {
+      responseJSON.message = 'Created Successfully';
+      return respondJSON(request, response, responseCode, responseJSON);
+    }
+  
+    return respondJSON(request, response, responseCode, {});
 };
 
 const notFound = (request, response) => {
@@ -138,7 +156,7 @@ module.exports = {
   getTitle,
   getGenre,
   getRandom,
-  getBook,
+  getBooks,
   reviewBook,
   addBook,
   notFound,
