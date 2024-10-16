@@ -70,8 +70,27 @@
       handleResponse(response, method === 'get');
     };
 
-  //function to send post requests
-  const sendPost = async (nameForm) => {
+  //function to send book reviews
+  const reviewRequest = async (form) => {
+    const url = nameForm.getAttribute('action');
+
+    //TODO: get proper form data from the form
+    const formData = "";
+
+    let response = await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+      },
+      body: formData,
+    });
+
+    handleResponse(response, true);
+  };
+
+    //function to send book reviews
+  const addRequest = async (form) => {
     const url = nameForm.getAttribute('action');
 
     //TODO: get proper form data from the form
@@ -91,7 +110,7 @@
 
   const init = () => {
     
-    const getMethod = (e) => {
+    const sendGet = (e) => {
       e.preventDefault();
       requestUpdate(userForm);
       return false;
@@ -101,14 +120,22 @@
     //add eventlistener to all get forms
 
 
-    const postMethod = (e) => {
+    const sendReview = (e) => {
       e.preventDefault();
-      sendPost(nameForm);
+      reviewRequest(reviewForm);
       return false;
     }
 
-    //TODO: 
-    //add eventlistener to all post forms
+    const reviewForm = document.getElementById("#reviewForm");
+    reviewForm.addEventListener('submit', sendReview)
+
+    const sendAdd = (e) => {
+      e.preventDefault();
+      addRequest(addForm);
+      return false;
+    }
+    const addForm = document.getElementById("#addForm");
+    addForm.addEventListener('submit', sendAdd)
   };
 
   //When the window loads, run init.
@@ -175,11 +202,18 @@
         <label for="title">Title: </label>
         <input class = "formValue" type="text" name="title" />
 
+<<<<<<< HEAD
         <label for="review">Review: </label>
         <input class = "formValue" type="textarea" name="review" />
         <input type="submit" value="Submit" />
       </form>
     </section>
+=======
+    <h3>Review Book</h3>
+    <form id= "reviewForm" action="/reviewBook">
+      <label for="title">Title: </label>
+      <input class = "formValue" type="text" name="title" />
+>>>>>>> 4f9d02bb9072af158849c7234e689ea2b9c5a6f9
 
     <section>
       <h3>Add New Book</h3>
@@ -190,8 +224,15 @@
         <label for="author">author: </label>
         <input class = "formValue" type="text" name="author" />
 
+<<<<<<< HEAD
         <label for="country">country: </label>
         <input class = "formValue" type="text" name="country" />
+=======
+    <h3>Add New Book</h3>
+    <form id= "addForm" action="/addBook">
+      <label for="title">Title (required): </label>
+      <input class = "formValue" type="text" name="title" />
+>>>>>>> 4f9d02bb9072af158849c7234e689ea2b9c5a6f9
 
         <label for="link">link: </label>
         <input class = "formValue" type="text" name="link" />
