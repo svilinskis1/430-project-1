@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Book API</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+ <h1>Documentation</h1>
+
+ <section>
+    <h1>Get Methods</h1>
+
+    <h2>Get by Title</h2>
+    <p><b>URL:</b> /getTitle</p>
+    <p><b>Query Params:</b></p>
+    <p>title: title of the book</p>
+    <p><b>Returns:</b></p>
+    <p>A single book with a matching title</p>
+
+    <h2>Get by Genre</h2>
+    <p><b>URL:</b> /getGenre</p>
+    <p><b>Query Params:</b></p>
+    <p>genre: genre to search for</p>
+    <p><b>Returns:</b></p>
+    <p>array of book objects that contain the genre</p>
+
+    <h2>Get Random Book</h2>
+    <p><b>URL:</b> /getRandom</p>
+    <p><b>Query Params:</b></p>
+    <p>none</p>
+    <p><b>Returns:</b></p>
+    <p>A single random book from the dataset</p>
+</section>
+
+<section>
+    <h1>Post Methods</h1>
+
+    <h2>Rate Book</h2>
+    <p><b>URL:</b> /rateBook</p>
+    <p><b>Query Params:</b></p>
+    <p>title: title of book to rate</p>
+    <p>review: rating of the book</p>
+    <p><b>Returns:</b></p>
+    <p>the updated book</p>
+   
+    <h2>Add Book</h2>
+    <p><b>URL:</b> /addBook</p>
+    <p><b>Query Params:</b></p>
+    <p>title: title of book to add. required</p>
+    <p>author: author of the book to add</p>
+    <p>country: country of origin of book to add</p>
+    <p>link: link to wikipedia page of book to add</p>
+    <p>pages: number of pages of book to add</p>
+    <p>year: release year of book to add</p>
+    <p>genre: genre of book to add</p>
+    <p><b>Returns:</b></p>
+    <p>the updated book</p>
+</section>
+
+</body>
+</html>

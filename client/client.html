@@ -3,6 +3,10 @@
 <head>
   <title>Book API</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya&display=swap" rel="stylesheet">
   
   <script>
     //Handles our FETCH response. This function is async because it
@@ -114,45 +118,47 @@
 </head>
 <body>
   <h1>Book API</h1>
-  <section id="top">
+  <a href = "/docs">Documentation</a>
+  <div id="top">
 
-    <h3>Get by Title</h3>
-    <form class = "getForm" id="titleForm" action="/getTitle">
-      <label for="title">Get by Title: </label>
-      <input class = "formValue" type="text" name="title" />
-      <input type="submit" value="Submit" />
-      <select class="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-    </form>
+    <section>
+      <h3>Get by Title</h3>
+      <form class = "getForm" id="titleForm" action="/getTitle">
+        <label for="title">Get by Title: </label>
+        <input class = "formValue" type="text" name="title" />
+        <input type="submit" value="Submit" />
+        <select class="methodSelect">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
+      </form>
+    </section>
 
-    <hr>
+    <section>
+      <h3>Get a Genre</h3>
+      <form class = "getForm" id="genreForm" action="/getGenre">
+        <label for="genre">Get by Genre: </label>
+        <input class = "formValue" type="text" name="genre" />
+        <input type="submit" value="Submit" />
+        <select class="methodSelect">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
+      </form>
+    </section>
 
-    <h3>Get a Genre</h3>
-    <form class = "getForm" id="genreForm" action="/getGenre">
-      <label for="genre">Get by Genre: </label>
-      <input class = "formValue" type="text" name="genre" />
-      <input type="submit" value="Submit" />
-      <select class="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-    </form>
+    <section>
+      <h3>Get a Random Book</h3>
+      <form class = "getForm" id="randomForm" action="/getRandom">
+        <input type="submit" value="Submit" />
+        <select class="methodSelect">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
+      </form>
+    </section>
 
-    <hr>
-
-    <h3>Get a Random Book</h3>
-    <form class = "getForm" id="randomForm" action="/getRandom">
-      <input type="submit" value="Submit" />
-      <select class="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-    </form>
-
-    <hr>
-
+    <section>
     <h3>Get Every Book</h3>
     <form class = "getForm" id="randomForm" action="/getBooks">
       <input type="submit" value="Submit" />
@@ -161,54 +167,51 @@
         <option value="head">HEAD</option>
       </select>
     </form>
+    </section>
 
-    <hr>
+    <section>
+      <h3>Review Book</h3>
+      <form class = "postForm" id= "reviewForm" action="/reviewBook">
+        <label for="title">Title: </label>
+        <input class = "formValue" type="text" name="title" />
 
-    <h3>Review Book</h3>
-    <form class = "postForm" id= "reviewForm" action="/reviewBook">
-      <label for="title">Title: </label>
-      <input class = "formValue" type="text" name="title" />
+        <label for="review">Review: </label>
+        <input class = "formValue" type="textarea" name="review" />
+        <input type="submit" value="Submit" />
+      </form>
+    </section>
 
-      <label for="review">Review: </label>
-      <input class = "formValue" type="textarea" name="review" />
-      <input type="submit" value="Submit" />
-    </form>
+    <section>
+      <h3>Add New Book</h3>
+      <form class = "postForm" id= "addForm" action="/addBook">
+        <label for="title">Title (required): </label>
+        <input class = "formValue" type="text" name="title" />
 
-    <hr>
+        <label for="author">author: </label>
+        <input class = "formValue" type="text" name="author" />
 
-    <h3>Add New Book</h3>
-    <form class = "postForm" id= "addForm" action="/addBook">
-      <label for="title">Title (required): </label>
-      <input class = "formValue" type="text" name="title" />
+        <label for="country">country: </label>
+        <input class = "formValue" type="text" name="country" />
 
-      <label for="author">author: </label>
-      <input class = "formValue" type="text" name="author" />
+        <label for="link">link: </label>
+        <input class = "formValue" type="text" name="link" />
 
-      <label for="country">country: </label>
-      <input class = "formValue" type="text" name="country" />
+        <label for="pages">pages: </label>
+        <input class = "formValue" type="text" name="pages" />
 
-      <label for="link">link: </label>
-      <input class = "formValue" type="text" name="link" />
+        <label for="year">year: </label>
+        <input class = "formValue" type="text" name="year" />
 
-      <label for="pages">pages: </label>
-      <input class = "formValue" type="text" name="pages" />
+        <label for="genre">genre: </label>
+        <input class = "formValue" type="text" name="genre" />
 
-      <label for="year">year: </label>
-      <input class = "formValue" type="text" name="year" />
-
-      <label for="genre">genre: </label>
-      <input class = "formValue" type="text" name="genre" />
-
-      <input type="submit" value="Submit" />
-    </form>
-
-    <hr>
-    <hr>
-
-  </section>
+        <input type="submit" value="Submit" />
+      </form>
+    </section>
+  </div>
 
   <h2>Output</h2>
-  <section id="content">
-  </section>
+  <div id="content">
+  </div>
 </body>
 </html>

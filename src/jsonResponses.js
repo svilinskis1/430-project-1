@@ -1,4 +1,5 @@
-const fs = require('fs'); // pull in the file system module
+const fs = require('fs');
+// pull in the file system module
 const books = JSON.parse(fs.readFileSync(`${__dirname}/../data/books.json`, 'utf8'));
 
 // send a response
@@ -75,20 +76,20 @@ const getBooks = (request, response) => {
 // NEEDS FIXING
 const reviewBook = (request, response) => {
   const responseJSON = {
-  message: 'title and review are both required.',
+    message: 'title and review are both required.',
   };
 
-  if(!request.query.title || !request.query.review){
+  if (!request.query.title || !request.query.review) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 204;
 
-  let userTitle = request.query.title;
-  let userReview = request.query.review;
+  const userTitle = request.query.title;
+  const userReview = request.query.review;
 
-  //send an error if the book doesnt exist
+  // send an error if the book doesnt exist
   if (!books[userTitle]) {
     responseCode = 400;
     responseJSON.message = 'Title not Found';
@@ -96,7 +97,7 @@ const reviewBook = (request, response) => {
 
   books[userTitle].review = userReview;
 
-  responseJSON.message = "Review Updated"
+  responseJSON.message = 'Review Updated';
 
   return respondJSON(request, response, responseCode, responseJSON);
 };
@@ -106,41 +107,41 @@ const reviewBook = (request, response) => {
 const addBook = (request, response) => {
   const responseJSON = {
     message: 'title is required.',
+  };
+
+  if (!request.query.title) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+
+  let responseCode = 204;
+
+  const userTitle = request.query.title;
+
+  // if the book doesnt already exist make it
+  if (!books[userTitle]) {
+    responseCode = 201;
+    books[userTitle] = {
+      userTitle,
     };
-  
-    if(!request.query.title){
-      responseJSON.id = 'missingParams';
-      return respondJSON(request, response, 400, responseJSON);
-    }
-  
-    let responseCode = 204;
-  
-    let userTitle = request.query.title;
-  
-    //if the book doesnt already exist make it
-    if (!books[userTitle]) {
-      responseCode = 201;
-      books[userTitle] = {
-        userTitle,
-      };
-    }
+  }
 
-    //update all the fields
-    books[userTitle].author = request.query.author;
-    books[userTitle].country = request.query.country;
-    books[userTitle].link = request.query.link;
-    books[userTitle].pages = request.query.pages;
-    books[userTitle].year = request.query.year;
-    books[userTitle].genre = request.query.genre;
-  
-    responseJSON.message = "Book Updated"
+  // update all the fields
+  books[userTitle].author = request.query.author;
+  books[userTitle].country = request.query.country;
+  books[userTitle].link = request.query.link;
+  books[userTitle].pages = request.query.pages;
+  books[userTitle].year = request.query.year;
+  books[userTitle].genre = request.query.genre;
 
-    if (responseCode === 201) {
-      responseJSON.message = 'Created Successfully';
-      return respondJSON(request, response, responseCode, responseJSON);
-    }
-  
-    return respondJSON(request, response, responseCode, {});
+  responseJSON.message = 'Book Updated';
+
+  if (responseCode === 201) {
+    responseJSON.message = 'Created Successfully';
+    return respondJSON(request, response, responseCode, responseJSON);
+  }
+
+  return respondJSON(request, response, responseCode, {});
 };
 
 const notFound = (request, response) => {
