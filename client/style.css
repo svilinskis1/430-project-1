@@ -1,26 +1,67 @@
 html, body {
   height: 100%;
-  width: 100%;
-  margin: 0;
+  width: 60%;
+  margin: auto;
   padding: 0;
+  color: ivory;
   font-family: "Alegreya", serif;
   background-image: url("bookshelf.png");
+  background-attachment: fixed;
+  text-align: center;
 }
 
-#top {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 24px;
-
+/* style the link */
+a {
+  color: white;
 }
 
-section {
-  background-color: ivory;
-  border-style: solid;
-  border-color: black;
-  border-width: 2px;
-  border-radius: 10px;
+a:visited{
+  color: tan;
+}
+
+/*div that shows the response sent by the server */
+/*has same styles as the tab content div*/
+.content, .tabcontent{
+  padding: 6px 12px;
+  background-color: rgba(42, 0, 0, 0.33);
+  border: 3px solid tan;
+  border-radius: 8px;
+}
+
+/*BASED ON W3SCHOOLS*/
+/*https://www.w3schools.com/howto/howto_js_tabs.asp*/
+
+/*div that holds the tabs*/
+.tabs {
+  overflow: hidden;
+  border: 3px solid tan;
+  border-radius: 8px;
+}
+
+/*individual tab buttons*/
+.tabs button {
+  background-color: #ffffff00;
+  outline: none;
+  cursor: pointer;
   padding: 8px;
-  height: 30%;
-  width: 45%;
+  transition: 0.2s;
+  font-family: "Alegreya", serif;
+  color: ivory;
+  border: none;
+}
+
+.tabs button:hover {
+  background-color: rgba(255, 255, 240, 0.33);
+  transform: scale(1.1); 
+  
+}
+
+.tabs button.active {
+  background-color: rgba(255, 255, 240, 0.5);
+}
+
+/* div that holds the stuff that appears when you click on a tab */
+.tabcontent {
+  display: none;
+  border-top: none;
 }

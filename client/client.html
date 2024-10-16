@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Book API</title>
+  <title>Book Helper</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
     //contains an await.
     const handleResponse = async (response, parseResponse) => {
       
-    //Grab the content section
+    //Grab the content div
     const content = document.querySelector('#content');
     content.innerHTML = "";
     const title = document.createElement('p');
@@ -108,6 +108,22 @@
     handleResponse(response, true);
   };
 
+  //BASED ON W3SCHOOLS
+  //https://www.w3schools.com/howto/howto_js_tabs.asp
+  function openTab(event, tabName) {
+  // Declare all variables
+  var i, tabcontent, tabs;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Show the current tab
+  document.getElementById(tabName).style.display = "block";
+}
+
   const init = () => {
     
     const sendGet = (e) => {
@@ -144,101 +160,111 @@
 </script>
 </head>
 <body>
-  <h1>Book API</h1>
-  <a href = "/docs">Documentation</a>
-  <div id="top">
 
-    <section>
-      <h3>Get by Title</h3>
+  <h1>Book Helper</h1>
+  <section id="top">
+
+    <div class="tabs">
+      <button class = "tab" onclick = "openTab(event, 'title')">Get By Title</button>
+      <button class = "tab" onclick = "openTab(event, 'genre')">Get By Genre</button>
+      <button class = "tab" onclick = "openTab(event, 'random')">Get Random Book</button>
+      <button class = "tab" onclick = "openTab(event, 'all')">Get All Books</button>
+      <button class = "tab" onclick = "openTab(event, 'review')">Review Book</button>
+      <button class = "tab" onclick = "openTab(event, 'add')">Add Book</button>
+    </div>
+
+    <div id = "title" class = "tabcontent">
+      <h3>Looking for a specific book? Search by title</h3>
       <form class = "getForm" id="titleForm" action="/getTitle">
         <label for="title">Get by Title: </label>
-        <input class = "formValue" type="text" name="title" />
-        <input type="submit" value="Submit" />
+        <input class = "formValue" type="text" name="title" /> <br>
         <select class="methodSelect">
           <option value="get">GET</option>
           <option value="head">HEAD</option>
-        </select>
+        </select> <br>
+        <input type="submit" value="Submit" />
       </form>
-    </section>
+    </div>
 
-    <section>
-      <h3>Get a Genre</h3>
+    <div id = "genre" class = "tabcontent">
+      <h3>Looking for something new? Look at all books from a genre</h3>
       <form class = "getForm" id="genreForm" action="/getGenre">
         <label for="genre">Get by Genre: </label>
-        <input class = "formValue" type="text" name="genre" />
-        <input type="submit" value="Submit" />
+        <input class = "formValue" type="text" name="genre" /> <br>
         <select class="methodSelect">
           <option value="get">GET</option>
           <option value="head">HEAD</option>
-        </select>
+        </select> <br>
+        <input type="submit" value="Submit" />
       </form>
-    </section>
+    </div>
 
-    <section>
-      <h3>Get a Random Book</h3>
+    <div id = "random" class = "tabcontent">
+      <h3>Don't know what you want? Find something random</h3>
       <form class = "getForm" id="randomForm" action="/getRandom">
-        <input type="submit" value="Submit" />
         <select class="methodSelect">
           <option value="get">GET</option>
           <option value="head">HEAD</option>
-        </select>
+        </select> <br>
+        <input type="submit" value="Submit" />
       </form>
-    </section>
+    </div>
 
-    <section>
-    <h3>Get Every Book</h3>
+    <div id = "all" class = "tabcontent">
+    <h3>Want to see everything? Get every book</h3>
     <form class = "getForm" id="randomForm" action="/getBooks">
-      <input type="submit" value="Submit" />
       <select class="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
-      </select>
+      </select> <br>
+      <input type="submit" value="Submit" />
     </form>
-    </section>
+    </div>
 
-    <section>
-      <h3>Review Book</h3>
-      <form class = "postForm" id= "reviewForm" action="/reviewBook">
+    <div id = "review" class = "tabcontent">
+      <h3>Liked or disliked something? Let us know with a review</h3>
+      <form id= "reviewForm" action="/reviewBook">
         <label for="title">Title: </label>
-        <input class = "formValue" type="text" name="title" />
-
+        <input class = "formValue" type="text" name="title" /> <br>
         <label for="review">Review: </label>
-        <input class = "formValue" type="textarea" name="review" />
+        <input class = "formValue" type="textarea" name="review" /> <br>
         <input type="submit" value="Submit" />
       </form>
-    </section>
+    </div>
 
-    <section>
-      <h3>Add New Book</h3>
-      <form class = "postForm" id= "addForm" action="/addBook">
+    <div id = "add" class = "tabcontent">
+      <h3>We're missing something you've read? Add it to our database</h3>
+      <form id= "addForm" action="/addBook">
         <label for="title">Title (required): </label>
-        <input class = "formValue" type="text" name="title" />
+        <input class = "formValue" type="text" name="title" /> <br>
 
         <label for="author">author: </label>
-        <input class = "formValue" type="text" name="author" />
+        <input class = "formValue" type="text" name="author" /> <br>
 
         <label for="country">country: </label>
-        <input class = "formValue" type="text" name="country" />
+        <input class = "formValue" type="text" name="country" /> <br>
 
         <label for="link">link: </label>
-        <input class = "formValue" type="text" name="link" />
+        <input class = "formValue" type="text" name="link" /> <br>
 
         <label for="pages">pages: </label>
-        <input class = "formValue" type="text" name="pages" />
+        <input class = "formValue" type="text" name="pages" /> <br>
 
         <label for="year">year: </label>
-        <input class = "formValue" type="text" name="year" />
+        <input class = "formValue" type="text" name="year" /> <br>
 
         <label for="genre">genre: </label>
-        <input class = "formValue" type="text" name="genre" />
+        <input class = "formValue" type="text" name="genre" /> <br>
 
         <input type="submit" value="Submit" />
       </form>
-    </section>
-  </div>
+    </div>
+  </section>
 
   <h2>Output</h2>
   <div id="content">
   </div>
+
+  <a href = "/docs">Confused? Read our Documentation</a>
 </body>
 </html>
