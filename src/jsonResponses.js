@@ -24,10 +24,9 @@ const getTitle = (request, response) => {
     message: 'Title not found!',
   };
 
-  for (let i = 0; i < books.length; i++) {
-    if (request.query.title === books[i].title) {
-      JSONresponse = books[i];
-    }
+  const foundBook = books.find((book) => book.title === request.query.title);
+  if(foundBook){
+    JSONresponse = foundBook;
   }
 
   return respondJSON(request, response, 200, JSONresponse);
@@ -35,20 +34,13 @@ const getTitle = (request, response) => {
 
 // getGenre - returns every book with the genre
 const getGenre = (request, response) => {
-  let JSONresponse = {};
+  let JSONresponse = {
+    message: 'There are no books with that genre!',
+  };
 
-  for (let i = 0; i < books.length; i++) {
-    for (let j = 0; j < books[i].genres; j++) {
-      if (request.query.genre === books[i].genres[j]) {
-        JSONresponse += books[i];
-      }
-    }
-  }
-
-  if (JSONresponse === '') {
-    JSONresponse = {
-      message: 'There are no books with this genre!',
-    };
+  const foundBooks = books.filter((book) => book.genres.includes(request.query.genre));
+  if(foundBooks.length > 0){
+    JSONresponse = foundBooks;
   }
 
   return respondJSON(request, response, 200, JSONresponse);

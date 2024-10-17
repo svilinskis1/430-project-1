@@ -16,7 +16,7 @@
     //Grab the content div
     const content = document.querySelector('#content');
     content.innerHTML = "";
-    const title = document.createElement('p');
+    const title = document.createElement('h3');
 
     //Based on the status code, display something
     switch(response.status) {
@@ -57,8 +57,10 @@
     //function to send get and head requests
     const requestUpdate = async (userForm) => {
     
-      const url = userForm.querySelector('#urlField').value;
-      const method = userForm.querySelector('#methodSelect').value;
+      const url = userForm.action;
+      const method = userForm.querySelector('.methodSelect').value;
+      const title = form.querySelector("#addTitle").value;
+      const review = form.querySelector("#reviewContent").value;
       
       let response = await fetch(url, {
         method,
@@ -72,13 +74,16 @@
 
   //function to send book reviews
   const reviewRequest = async (form) => {
-    const url = nameForm.getAttribute('action');
+    const url = form.action;
+    const title = form.querySelector("#reviewTitle").value;
+    const review = form.querySelector("#reviewContent").value;
 
     //TODO: get proper form data from the form
-    const formData = "";
+    const formData = `title=${title}&review=${review}`;
+    console.log(formData);
 
     let response = await fetch(url, {
-      method: method,
+      method: "POST",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
@@ -91,13 +96,20 @@
 
     //function to send book reviews
   const addRequest = async (form) => {
-    const url = nameForm.getAttribute('action');
+    const url = form.action;
+    const title = form.querySelector("#addTitle").value;
+    const author = form.querySelector("#addAuthor").value;
+    const country = form.querySelector("#addCountry").value;
+    const link = form.querySelector("#addLink").value;
+    const pages = form.querySelector("#addPages").value;
+    const year = form.querySelector("#addYear").value;
+    const genre = form.querySelector("#addGenre").value;
 
     //TODO: get proper form data from the form
-    const formData = "";
+    const formData = `title=${title}&author=${author}&country=${country}&link=${link}&pages=${pages}&year=${year}&genre=${genre}`;
 
     let response = await fetch(url, {
-      method: method,
+      method: "POST",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
@@ -125,33 +137,49 @@
 }
 
   const init = () => {
-    
-    const sendGet = (e) => {
-      e.preventDefault();
-      requestUpdate(userForm);
-      return false;
-    }
-
-    //TODO: 
     //add eventlistener to all get forms
+    const titleForm = document.getElementById("titleForm");
+    titleForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestUpdate(titleForm);
+      return false;
+    });
 
+    const genreForm = document.getElementById("genreForm");
+    genreForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestUpdate(genreForm);
+      return false;
+    });
 
-    const sendReview = (e) => {
+    const randomForm = document.getElementById("randomForm");
+    randomForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestUpdate(randomForm);
+      return false;
+    });
+
+    const allForm = document.getElementById("allForm");
+    allForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestUpdate(allForm);
+      return false;
+    });
+
+    const reviewForm = document.getElementById("reviewForm");
+    reviewForm.addEventListener('submit', (e) => {
       e.preventDefault();
       reviewRequest(reviewForm);
       return false;
-    }
+    });
 
-    const reviewForm = document.getElementById("#reviewForm");
-    reviewForm.addEventListener('submit', sendReview)
-
-    const sendAdd = (e) => {
+    const addForm = document.getElementById("addForm");
+    addForm.addEventListener('submit', (e) => {
       e.preventDefault();
       addRequest(addForm);
       return false;
-    }
-    const addForm = document.getElementById("#addForm");
-    addForm.addEventListener('submit', sendAdd)
+    });
+
   };
 
   //When the window loads, run init.
@@ -212,7 +240,7 @@
 
     <div id = "all" class = "tabcontent">
     <h3>Want to see everything? Get every book</h3>
-    <form class = "getForm" id="randomForm" action="/getBooks">
+    <form class = "getForm" id="allForm" action="/getBooks">
       <select class="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
@@ -225,9 +253,9 @@
       <h3>Liked or disliked something? Let us know with a review</h3>
       <form id= "reviewForm" action="/reviewBook">
         <label for="title">Title: </label>
-        <input class = "formValue" type="text" name="title" /> <br>
+        <input id = "reviewTitle" class = "formValue" type="text" name="title" /> <br>
         <label for="review">Review: </label>
-        <input class = "formValue" type="textarea" name="review" /> <br>
+        <input id = "reviewContent" class = "formValue" type="textarea" name="review" /> <br>
         <input type="submit" value="Submit" />
       </form>
     </div>
@@ -235,33 +263,33 @@
     <div id = "add" class = "tabcontent">
       <h3>We're missing something you've read? Add it to our database</h3>
       <form id= "addForm" action="/addBook">
-        <label for="title">Title (required): </label>
-        <input class = "formValue" type="text" name="title" /> <br>
+        <label for="title">Title (requred): </label>
+        <input id = "addTitle" class = "formValue" type="text" name="title" /> <br>
 
         <label for="author">author: </label>
-        <input class = "formValue" type="text" name="author" /> <br>
+        <input id = "addAuthor" class = "formValue" type="text" name="author" /> <br>
 
         <label for="country">country: </label>
-        <input class = "formValue" type="text" name="country" /> <br>
+        <input id = "addCountry" class = "formValue" type="text" name="country" /> <br>
 
         <label for="link">link: </label>
-        <input class = "formValue" type="text" name="link" /> <br>
+        <input id = "addLink" class = "formValue" type="text" name="link" /> <br>
 
         <label for="pages">pages: </label>
-        <input class = "formValue" type="text" name="pages" /> <br>
+        <input id = "addPages" class = "formValue" type="text" name="pages" /> <br>
 
         <label for="year">year: </label>
-        <input class = "formValue" type="text" name="year" /> <br>
+        <input id = "addYear" class = "formValue" type="text" name="year" /> <br>
 
         <label for="genre">genre: </label>
-        <input class = "formValue" type="text" name="genre" /> <br>
+        <input id = "addGenre" class = "formValue" type="text" name="genre" /> <br>
 
         <input type="submit" value="Submit" />
       </form>
     </div>
   </section>
 
-  <h2>Output</h2>
+  <h2>Results</h2>
   <div id="content">
   </div>
 
