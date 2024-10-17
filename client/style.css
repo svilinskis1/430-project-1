@@ -19,6 +19,28 @@ a:visited{
   color: tan;
 }
 
+input[type=submit]{
+  background-color: #ffffff00;
+  outline: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: 0.2s;
+  font-family: "Alegreya", serif;
+  border: 3px solid tan;
+  border-radius: 4px;
+  color: ivory;
+}
+
+input[type=text], select{
+  background-color: #ffffff00;
+  outline: none;
+  padding: 2px;
+  font-family: "Alegreya", serif;
+  border: 3px solid tan;
+  border-radius: 4px;
+  color: ivory;
+}
+
 /*div that shows the response sent by the server */
 /*has same styles as the tab content div*/
 #content, .tabcontent{
