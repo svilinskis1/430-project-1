@@ -55,12 +55,11 @@
     };
 
     //function to send get and head requests
-    const requestUpdate = async (userForm) => {
+    //with no query params
+    const requestUpdate = async (form) => {
     
-      const url = userForm.action;
-      const method = userForm.querySelector('.methodSelect').value;
-      const title = form.querySelector("#addTitle").value;
-      const review = form.querySelector("#reviewContent").value;
+      const url = form.action;
+      const method = form.querySelector('.methodSelect').value;
       
       let response = await fetch(url, {
         method,
@@ -72,23 +71,65 @@
       handleResponse(response, method === 'get');
     };
 
+    //sends a request for get title
+  const titleRequest = async (form) =>{
+    const url = form.action;
+    const method = form.querySelector('.methodSelect').value;
+    const title = form.querySelector("#titleTitle").value;
+    
+    const formData = `?title=${title}`;
+
+    const fetchURL = url.concat(formData)
+    
+    let response = await fetch(fetchURL, {
+      method,
+      headers: {
+          'Accept': 'application/json'
+      },
+    });
+
+    handleResponse(response, method === 'get');
+  }
+
+  //sends a request for get by genre
+  const genreRequest = async (form) =>{
+    const url = form.action;
+    const method = form.querySelector('.methodSelect').value;
+    const genre = form.querySelector("#genreGenre").value;
+    
+    const formData = `?genre=${genre}`;
+
+    const fetchURL = url.concat(formData)
+    
+    let response = await fetch(fetchURL, {
+      method,
+      headers: {
+          'Accept': 'application/json'
+      },
+    });
+
+    handleResponse(response, method === 'get');
+  }
+  
+
   //function to send book reviews
   const reviewRequest = async (form) => {
     const url = form.action;
     const title = form.querySelector("#reviewTitle").value;
     const review = form.querySelector("#reviewContent").value;
 
-    //TODO: get proper form data from the form
-    const formData = `title=${title}&review=${review}`;
-    console.log(formData);
+    //TODO: get proper form data from the formS
+    const formData = `?title=${title}&review=${review}`;
 
-    let response = await fetch(url, {
+    const fetchURL = url.concat(formData)
+    
+    let response = await fetch(fetchURL, {
       method: "POST",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
       },
-      body: formData,
+
     });
 
     handleResponse(response, true);
@@ -106,15 +147,16 @@
     const genre = form.querySelector("#addGenre").value;
 
     //TODO: get proper form data from the form
-    const formData = `title=${title}&author=${author}&country=${country}&link=${link}&pages=${pages}&year=${year}&genre=${genre}`;
+    const formData = `?title=${title}&author=${author}&country=${country}&link=${link}&pages=${pages}&year=${year}&genre=${genre}`;
 
-    let response = await fetch(url, {
+    const fetchURL = url.concat(formData)
+    
+    let response = await fetch(fetchURL, {
       method: "POST",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
       },
-      body: formData,
     });
 
     handleResponse(response, true);
@@ -141,14 +183,14 @@
     const titleForm = document.getElementById("titleForm");
     titleForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      requestUpdate(titleForm);
+      titleRequest(titleForm);
       return false;
     });
 
     const genreForm = document.getElementById("genreForm");
     genreForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      requestUpdate(genreForm);
+      genreRequest(genreForm);
       return false;
     });
 
@@ -205,7 +247,7 @@
       <h3>Looking for a specific book? Search by title</h3>
       <form class = "getForm" id="titleForm" action="/getTitle">
         <label for="title">Get by Title: </label>
-        <input class = "formValue" type="text" name="title" /> <br>
+        <input id = "titleTitle" class = "formValue" type="text" name="title" /> <br>
         <select class="methodSelect">
           <option value="get">GET</option>
           <option value="head">HEAD</option>
@@ -218,7 +260,7 @@
       <h3>Looking for something new? Look at all books from a genre</h3>
       <form class = "getForm" id="genreForm" action="/getGenre">
         <label for="genre">Get by Genre: </label>
-        <input class = "formValue" type="text" name="genre" /> <br>
+        <input id = "genreGenre" class = "formValue" type="text" name="genre" /> <br>
         <select class="methodSelect">
           <option value="get">GET</option>
           <option value="head">HEAD</option>

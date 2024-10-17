@@ -25,7 +25,7 @@ const getTitle = (request, response) => {
   };
 
   const foundBook = books.find((book) => book.title === request.query.title);
-  if(foundBook){
+  if (foundBook) {
     JSONresponse = foundBook;
   }
 
@@ -38,8 +38,9 @@ const getGenre = (request, response) => {
     message: 'There are no books with that genre!',
   };
 
+  //this crashes? 
   const foundBooks = books.filter((book) => book.genres.includes(request.query.genre));
-  if(foundBooks.length > 0){
+  if (foundBooks.length > 0) {
     JSONresponse = foundBooks;
   }
 
@@ -71,23 +72,25 @@ const reviewBook = (request, response) => {
     message: 'title and review are both required.',
   };
 
-  if (!request.query.title || !request.query.review) {
+  const { title, review } = request.query;
+
+  if (!title || !review) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 204;
 
-  const userTitle = request.query.title;
-  const userReview = request.query.review;
+  bookIndex = books.findIndex((book) => book.title === title);
 
   // send an error if the book doesnt exist
-  if (!books[userTitle]) {
+  if (bookIndex < 0) {
     responseCode = 400;
     responseJSON.message = 'Title not Found';
+    return respondJSON(request, response, responseCode, responseJSON);
   }
-
-  books[userTitle].review = userReview;
+  
+  books[bookIndex].review = review;
 
   responseJSON.message = 'Review Updated';
 
@@ -95,36 +98,39 @@ const reviewBook = (request, response) => {
 };
 
 // addBook - allows user to add a new book to the api
-// NEEDS FIXING
 const addBook = (request, response) => {
   const responseJSON = {
     message: 'title is required.',
   };
 
-  if (!request.query.title) {
+  const { title, author, country, link, pages, year, genre } = request.query;
+
+  if (!title) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 204;
 
-  const userTitle = request.query.title;
+  bookIndex = books.findIndex((book) => book.title === title);
 
   // if the book doesnt already exist make it
-  if (!books[userTitle]) {
+  if (bookIndex < 0) {
     responseCode = 201;
-    books[userTitle] = {
-      userTitle,
+    books[books.length] = {
+      title : title
     };
   }
 
+  bookIndex = books.findIndex((book) => book.title === title);
+
   // update all the fields
-  books[userTitle].author = request.query.author;
-  books[userTitle].country = request.query.country;
-  books[userTitle].link = request.query.link;
-  books[userTitle].pages = request.query.pages;
-  books[userTitle].year = request.query.year;
-  books[userTitle].genre = request.query.genre;
+  books[bookIndex].author = request.query.author;
+  books[bookIndex].country = request.query.country;
+  books[bookIndex].link = request.query.link;
+  books[bookIndex].pages = request.query.pages;
+  books[bookIndex].year = request.query.year;
+  books[bookIndex].genre = request.query.genre;
 
   responseJSON.message = 'Book Updated';
 
