@@ -38,7 +38,7 @@ const getGenre = (request, response) => {
     message: 'There are no books with that genre!',
   };
 
-  //this crashes? 
+  // this crashes?
   const foundBooks = books.filter((book) => book.genres.includes(request.query.genre));
   if (foundBooks.length > 0) {
     JSONresponse = foundBooks;
@@ -81,7 +81,7 @@ const reviewBook = (request, response) => {
 
   let responseCode = 204;
 
-  bookIndex = books.findIndex((book) => book.title === title);
+  const bookIndex = books.findIndex((book) => book.title === title);
 
   // send an error if the book doesnt exist
   if (bookIndex < 0) {
@@ -89,7 +89,7 @@ const reviewBook = (request, response) => {
     responseJSON.message = 'Title not Found';
     return respondJSON(request, response, responseCode, responseJSON);
   }
-  
+
   books[bookIndex].review = review;
 
   responseJSON.message = 'Review Updated';
@@ -103,7 +103,9 @@ const addBook = (request, response) => {
     message: 'title is required.',
   };
 
-  const { title, author, country, link, pages, year, genre } = request.query;
+  const {
+    title, author, country, link, pages, year, genre,
+  } = request.query;
 
   if (!title) {
     responseJSON.id = 'missingParams';
@@ -112,25 +114,25 @@ const addBook = (request, response) => {
 
   let responseCode = 204;
 
-  bookIndex = books.findIndex((book) => book.title === title);
+  let bookIndex = books.findIndex((book) => book.title === title);
 
   // if the book doesnt already exist make it
   if (bookIndex < 0) {
     responseCode = 201;
     books[books.length] = {
-      title : title
+      title,
     };
   }
 
   bookIndex = books.findIndex((book) => book.title === title);
 
   // update all the fields
-  books[bookIndex].author = request.query.author;
-  books[bookIndex].country = request.query.country;
-  books[bookIndex].link = request.query.link;
-  books[bookIndex].pages = request.query.pages;
-  books[bookIndex].year = request.query.year;
-  books[bookIndex].genre = request.query.genre;
+  books[bookIndex].author = author;
+  books[bookIndex].country = country;
+  books[bookIndex].link = link;
+  books[bookIndex].pages = pages;
+  books[bookIndex].year = year;
+  books[bookIndex].genre = genre;
 
   responseJSON.message = 'Book Updated';
 
